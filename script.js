@@ -1,49 +1,41 @@
 const socket = io();
-const gameArea = document.getElementById('gameArea');
-const statusBox = document.getElementById('status');
+const gameArea = document.getElementById("gameArea");
+const statusText = document.getElementById("status");
+const myRoom = document.getElementById("myRoom");
 
 for(let i=1;i<=6;i++){
-    gameArea.innerHTML += `<img src="fingers/${i}.png" onclick="play(${i})">`;
+    gameArea.innerHTML += `<button class="finger" onclick="playFinger(${i})">${i}</button>`;
 }
 
 function createRoom(){
-    const name = document.getElementById('name').value;
+    const name = document.getElementById("name").value;
     if(name===""){
-        alert("Enter your name first");
+        alert("Enter your name");
         return;
     }
-    socket.emit('createRoom',{name});
+    socket.emit("createRoom",{name});
 }
 
 function joinRoom(){
-    const name = document.getElementById('name').value;
-    const room = document.getElementById('roomCode').value;
-
-    if(name==="" || room===""){
+    const name = document.getElementById("name").value;
+    const code = document.getElementById("roomInput").value;
+    if(name==="" || code===""){
         alert("Enter name and room code");
         return;
     }
-
-    socket.emit('joinRoom',{name,room});
+    socket.emit("joinRoom",{code,name});
 }
 
-function play(num){
-    socket.emit('playTurn',{choice:num});
+function playFinger(num){
+    console.log("Played",num);
 }
 
-socket.on('gameState',(data)=>{
+socket.on("roomCreated",(code)=>{
+    myRoom.innerText = "YOUR ROOM CODE : " + code;
+    statusText.innerText = "Send this code to friend";
+    document.getElementById("roomInput").value = code;
+});
 
-    statusBox.innerText =
-    `ROOM ${data.room} | ${data.message} | INNINGS ${data.innings}`;
-
-    document.getElementById('roomCode').value = data.room;
-
-    document.getElementById('p1score').innerText = data.score1;
-    document.getElementById('p2score').innerText = data.score2;
-
-    if(data.finished){
-        setTimeout(()=>{
-            alert("🏆 WINNER : " + data.winner);
-        },300);
-    }
+socket.on("bothJoined",(data)=>{
+    statusText.innerText = "Both Players Joined ✅ Match Ready";
 });
