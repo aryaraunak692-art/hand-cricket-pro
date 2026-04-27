@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand Cricket Pro Ultimate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="main-container">
+
+        <div class="game-card">
+
+            <h1 class="title">🏏 HAND CRICKET PRO ULTIMATE</h1>
+            <p class="subtitle">Real Time Multiplayer Online Finger Cricket Battle</p>
+
+            <div class="top-controls">
+                <input type="text" id="name" placeholder="👤 Enter Your Name">
+
+                <button class="btn create-btn" onclick="createRoom()">➕ Create Room</button>
+
+                <input type="text" id="roomCode" placeholder="🎯 Room Code">
+
+                <button class="btn join-btn" onclick="joinRoom()">🚪 Join Room</button>
+            </div>
+
+            <div class="score-panel">
+                <h2 id="status">Waiting for Match Start...</h2>
+            </div>
+
+            <div class="players-panel">
+                <div class="player-box">
+                    <h3>PLAYER 1</h3>
+                    <p id="p1score">0</p>
+                </div>
+
+                <div class="vs-box">VS</div>
+
+                <div class="player-box">
+                    <h3>PLAYER 2</h3>
+                    <p id="p2score">0</p>
+                </div>
+            </div>
+
+            <div class="gesture-title">CHOOSE YOUR FINGER</div>
+
+            <div id="gameArea" class="game-area"></div>
+
+        </div>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
